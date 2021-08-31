@@ -1,36 +1,36 @@
 <template>
   <div id="app">
-    <VueWizzard v-show="showDialog" header="Wizzard-State-Manager" :states="states" @finish="finish" @next="next" @back="back" @close="close">
-      <template v-slot:state0>
+    <VueWizard v-show="showDialog" header="Wizzard-State-Manager" :states="states" @finish="finish" @next="next" @back="back" @close="close">
+      <template v-slot:name>
         <form>
           <label>Eingabe Name</label>
           <input type="text" v-model="user.name">
         </form>
       </template>
-      <template v-slot:state1>
+      <template v-slot:mail>
         <form>
           <label>Eingabe E-Mail</label>
           <input type="email" v-model="user.email">
         </form>
       </template>
-      <template v-slot:state2>
+      <template v-slot:age>
         <form>
           <label>Eingabe Alter</label>
           <input type="number" v-model="user.alter">
         </form>
       </template>
-    </VueWizzard>
+    </VueWizard>
     <button class="btn btn-primary" @click="showDialog = !showDialog">Toggle</button>
   </div>
 </template>
 
 <script>
-import VueWizzard from "./components/VueWizzard";
+import VueWizard from "./components/VueWizard";
 
 export default {
   name: 'App',
   components: {
-    VueWizzard,
+    VueWizard,
   }, data() {
     return {
       showDialog: false,
@@ -40,9 +40,21 @@ export default {
         email: 'muh@test.de',
       },
       states: [
-          'Username',
-          'E-Mail',
-          'Alter'
+          {
+            name: 'name',
+            description: 'Input Username',
+          },
+          {
+            name: 'mail',
+            description: 'Input E-Mail',
+            disableNext: () => {
+              return this.user.email === '';
+            },
+          },
+          {
+            name: 'age',
+            description: 'Input Alter',
+          }
       ],
     };
   },
